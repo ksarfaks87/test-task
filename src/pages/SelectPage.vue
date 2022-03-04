@@ -1,8 +1,10 @@
 <template>
   <div class="wrapper">
     <h1>Страница с Select</h1>
-    <my-select :hasError="true" />
+    <my-select />
+    <my-select :isHovered="true" />
     <my-select :type="activeValue" />
+    <my-select :hasError="true" />
     <my-select :isDisabled="true" :type="activeValue" />
     <my-select :autoFocus="true" />
   </div>

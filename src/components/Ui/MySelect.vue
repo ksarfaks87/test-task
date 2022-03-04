@@ -5,13 +5,13 @@
       :class="[
         [
           visible ? 'select-default-active' : '',
-          type !== 'Placeholder' ? 'select-default-name' : '',
+          defaultValue !== 'Placeholder' ? 'select-default-name' : '',
         ],
         classes,
       ]"
-      @blur="hideSelect"
-      @click="showSelect"
       tabindex="0"
+      @click="showSelect"
+      @blur="visible = false"
       ref="select"
     >
       {{ defaultValue }}
@@ -31,7 +31,7 @@
     <transition name="down-fade">
       <div class="select-content" v-if="visible">
         <my-input
-          v-model="value"
+          :placeholder="value"
           :isHover="true"
           :class="['select-content-default']"
         />
@@ -71,6 +71,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isHovered: {
+      type: Boolean,
+      default: false,
+    },
     autoFocus: {
       type: Boolean,
       default: false,
@@ -96,13 +100,8 @@ export default {
 
     const visible = ref(false);
 
-    const hideSelect = () => {
-      visible.value = false;
-    };
-
     const showSelect = () => {
       visible.value = !visible.value;
-      console.log(visible.value);
     };
 
     const setTitle = (item) => {
@@ -119,11 +118,11 @@ export default {
       return {
         ["select-default-alert"]: props.hasError,
         ["select-default-disabled"]: props.isDisabled,
+        ["select-default-hovered"]: props.isHovered,
       };
     });
 
     onMounted(() => {
-      console.log(visible.value);
       if (props.autoFocus) {
         focus();
       }
@@ -140,7 +139,6 @@ export default {
       showSelect,
       focus,
       setTitle,
-      hideSelect,
     };
   },
 };
@@ -149,7 +147,7 @@ export default {
 <style lang="less" scoped>
 .select {
   position: relative;
-  margin: 50px auto;
+  margin: 3rem 2rem;
   width: 32rem;
   font-size: 1.6rem;
   &-icon {
@@ -212,6 +210,13 @@ export default {
       color: #d9d6de;
       & > .select-icon svg {
         fill: #e4e1ea;
+      }
+    }
+    &-hovered {
+      color: #b0aabb;
+      border-color: #c8c5cf;
+      & > .select-icon svg {
+        fill: #857b94;
       }
     }
     &-alert {

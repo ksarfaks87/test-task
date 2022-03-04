@@ -5,7 +5,7 @@
         class="label-input"
         type="text"
         ref="input"
-        placeholder="Placeholder"
+        :placeholder="placeholder"
         @focus="focused = true"
         @blur="focused = false"
         :value="defaultValue"
@@ -61,6 +61,10 @@ export default {
     autoFocus: {
       type: Boolean,
       default: false,
+    },
+    placeholder: {
+      type: String,
+      default: "Placeholder",
     },
   },
 
