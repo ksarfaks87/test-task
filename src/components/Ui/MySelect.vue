@@ -11,7 +11,6 @@
       ]"
       tabindex="0"
       @click="showSelect"
-      @blur="visible = false"
       ref="select"
     >
       {{ defaultValue }}
@@ -29,7 +28,7 @@
     </div>
 
     <transition name="down-fade">
-      <div class="select-content" v-if="visible">
+      <div class="select-content" ref="content" v-show="visible">
         <my-input
           :placeholder="value"
           :isHover="true"
@@ -80,7 +79,6 @@ export default {
       default: false,
     },
   },
-
   setup(props) {
     const value = "Search";
     const defaultValue = ref(props.type);
@@ -97,11 +95,16 @@ export default {
     ];
     const select = ref();
     const focused = ref(false);
+    const content = ref(null);
 
     const visible = ref(false);
 
     const showSelect = () => {
       visible.value = !visible.value;
+    };
+
+    const hideSelect = () => {
+      visible.value = false;
     };
 
     const setTitle = (item) => {
@@ -126,6 +129,17 @@ export default {
       if (props.autoFocus) {
         focus();
       }
+      document.addEventListener(
+        "click",
+        (e) => {
+          if (e.path.includes(content.value)) {
+            return;
+          } else {
+            hideSelect();
+          }
+        },
+        true
+      );
     });
 
     return {
@@ -134,11 +148,13 @@ export default {
       visible,
       classes,
       select,
+      content,
       focused,
       defaultValue,
       showSelect,
       focus,
       setTitle,
+      hideSelect,
     };
   },
 };
