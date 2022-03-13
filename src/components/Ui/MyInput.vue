@@ -114,6 +114,7 @@ export default {
 }
 .label {
   position: relative;
+  width: 100%;
   #search {
     position: absolute;
     top: 50%;
