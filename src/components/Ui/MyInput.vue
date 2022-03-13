@@ -8,9 +8,8 @@
         :placeholder="placeholder"
         @focus="focused = true"
         @blur="focused = false"
-        :value="defaultValue"
         :disabled="isDisabled"
-        @input="updateInput"
+        v-model="modelValue"
       />
       <svg
         id="search"
@@ -69,7 +68,7 @@ export default {
   },
 
   setup(props) {
-    const defaultValue = ref(props.modelValue);
+    // const defaultValue = ref(props.modelValue);
     const classes = computed(() => {
       return {
         hovered: props.isHover,
@@ -77,10 +76,6 @@ export default {
         alert: props.isAlert,
       };
     });
-
-    const updateInput = (e) => {
-      defaultValue.value = e.target.value;
-    };
 
     const input = ref();
     const focused = ref(false);
@@ -95,7 +90,7 @@ export default {
         focus();
       }
     });
-    return { input, classes, focus, focused, defaultValue, updateInput };
+    return { input, classes, focus, focused };
   },
 };
 </script>
@@ -111,6 +106,9 @@ export default {
   cursor: pointer;
 }
 .input {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
   max-width: 32rem;
   margin-bottom: 2rem;
 }
