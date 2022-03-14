@@ -2,12 +2,12 @@
   <div class="wrapper">
     <h1>Страница с инпутом</h1>
     <h2>Введено: {{ changeValue }}</h2>
-    <my-input />
-    <my-input :isHover="true" />
     <my-input v-model="value" />
-    <my-input v-model="value" :isAlert="true" />
-    <my-input :isDisabled="true" />
-    <my-input :autoFocus="true" />
+    <my-input v-model="value" :isHover="true" />
+    <my-input v-model="value" :startValue="startValue" />
+    <my-input v-model="value" :isAlert="true" :startValue="startValue" />
+    <my-input v-model="value" :isDisabled="true" />
+    <my-input v-model="value" :autoFocus="true" />
   </div>
 </template>
 
@@ -16,8 +16,9 @@ import MyInput from "@/components/Ui/MyInput.vue";
 export default {
   components: { MyInput },
   setup() {
-    const value = "Lorem ipsum";
-    return { value };
+    const value = "";
+    const startValue = "Lorem ipsum";
+    return { value, startValue };
   },
 };
 </script>

@@ -9,8 +9,8 @@
         @focus="focused = true"
         @blur="focused = false"
         :disabled="isDisabled"
-        v-model="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        v-model="defaultValue"
+        @input="changeInput"
       />
       <svg
         id="search"
@@ -66,10 +66,14 @@ export default {
       type: String,
       default: "Placeholder",
     },
+    startValue: {
+      type: String,
+    },
   },
 
-  setup(props) {
-    // const defaultValue = ref(props.modelValue);
+  setup(props, { emit }) {
+    const defaultValue = ref(props.modelValue);
+
     const classes = computed(() => {
       return {
         hovered: props.isHover,
@@ -77,6 +81,10 @@ export default {
         alert: props.isAlert,
       };
     });
+
+    const changeInput = (event) => {
+      emit("update:modelValue", event.target.value);
+    };
 
     const input = ref();
     const focused = ref(false);
@@ -86,12 +94,19 @@ export default {
       input.value.focus();
     };
 
+    const setValue = () => {
+      defaultValue.value = props.startValue;
+    };
+
     onMounted(() => {
       if (props.autoFocus) {
         focus();
       }
+      if (props.startValue !== "") {
+        setValue();
+      }
     });
-    return { input, classes, focus, focused };
+    return { input, classes, focus, focused, defaultValue, changeInput };
   },
 };
 </script>
