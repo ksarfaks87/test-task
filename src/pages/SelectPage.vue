@@ -10,13 +10,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import MySelect from "../components/Ui/MySelect.vue";
 export default {
   components: { MySelect },
 
   setup() {
-    const activeValue = "Lorem ipsum";
+    const activeValue: string = "Lorem ipsum";
     return { activeValue };
   },
 };

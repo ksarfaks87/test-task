@@ -10,6 +10,7 @@
         @blur="focused = false"
         :disabled="isDisabled"
         v-model="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
       />
       <svg
         id="search"
