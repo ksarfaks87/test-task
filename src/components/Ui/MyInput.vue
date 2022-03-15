@@ -7,10 +7,8 @@
         ref="input"
         :placeholder="placeholder"
         @focus="focused = true"
-        @blur="focused = false"
         :disabled="isDisabled"
-        v-model="defaultValue"
-        @input="changeInput"
+        v-model="inputValue"
       />
       <svg
         id="search"
@@ -23,7 +21,7 @@
         />
       </svg>
       <svg
-        v-if="focused"
+        v-if="inputValue.length"
         class="close"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 320 512"
@@ -66,14 +64,10 @@ export default {
       type: String,
       default: "Placeholder",
     },
-    startValue: {
-      type: String,
-    },
   },
 
   setup(props, { emit }) {
-    const defaultValue = ref(props.modelValue);
-
+    const inputValue = ref(props.modelValue);
     const classes = computed(() => {
       return {
         hovered: props.isHover,
@@ -82,8 +76,8 @@ export default {
       };
     });
 
-    const changeInput = (event) => {
-      emit("update:modelValue", event.target.value);
+    const clearInput = () => {
+      inputValue.value = "";
     };
 
     const input = ref();
@@ -94,19 +88,19 @@ export default {
       input.value.focus();
     };
 
-    const setValue = () => {
-      defaultValue.value = props.startValue;
-    };
-
     onMounted(() => {
       if (props.autoFocus) {
         focus();
       }
-      if (props.startValue !== "") {
-        setValue();
-      }
     });
-    return { input, classes, focus, focused, defaultValue, changeInput };
+    return {
+      input,
+      classes,
+      focus,
+      focused,
+      clearInput,
+      inputValue,
+    };
   },
 };
 </script>
@@ -119,6 +113,7 @@ export default {
   margin: -1rem 0;
   right: 1rem;
   width: 1.2rem;
+  height: 2.2rem;
   cursor: pointer;
 }
 .input {
