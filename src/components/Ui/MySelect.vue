@@ -28,12 +28,15 @@
     </div>
 
     <transition name="down-fade">
-      <div class="select-content" ref="content" v-show="visible">
-        <my-input
-          :placeholder="value"
-          :isHover="true"
-          :class="['select-content-default']"
-        />
+      <div class="select-content" v-if="visible" ref="content">
+        <div class="select-content-input">
+          <my-input
+            :placeholder="value"
+            :isHover="true"
+            :class="['select-content-default']"
+          />
+        </div>
+
         <div class="select-items">
           <my-radiobutton
             @getTitle="setTitle"
@@ -100,7 +103,10 @@ export default {
     const visible = ref(false);
 
     const showSelect = () => {
+      console.log(visible.value);
+
       visible.value = !visible.value;
+      console.log(visible.value);
     };
 
     const hideSelect = () => {
@@ -134,10 +140,11 @@ export default {
         (e) => {
           if (e.path.includes(content.value)) {
             return;
-          } else {
+          } else if (!e.path.includes(select.value)) {
             hideSelect();
           }
         },
+
         true
       );
     });
